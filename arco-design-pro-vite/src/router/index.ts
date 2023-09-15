@@ -12,10 +12,12 @@ NProgress.configure({ showSpinner: false }); // NProgress Configuration
 const router = createRouter({
   history: createWebHistory(),
   routes: [
+    // 根路由重定向到登录页。
     {
       path: '/',
       redirect: 'login',
     },
+    // 登录页。
     {
       path: '/login',
       name: 'login',

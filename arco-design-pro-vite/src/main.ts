@@ -19,7 +19,8 @@ const app = createApp(App);
 app.use(ArcoVue, {});
 app.use(ArcoVueIcon);
 
-app.use(router);    // 使用路由实例。
+// 使用 Vue Router。
+app.use(router);
 app.use(store);
 app.use(i18n);
 app.use(globalComponents);
