@@ -8,6 +8,7 @@ import createRouteGuard from './guard';
 
 NProgress.configure({ showSpinner: false }); // NProgress Configuration
 
+// 创建路由实例。
 const router = createRouter({
   history: createWebHistory(),
   routes: [

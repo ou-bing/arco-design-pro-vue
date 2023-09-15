@@ -5,6 +5,7 @@ const externalModules = import.meta.glob('./externalModules/*.ts', {
   eager: true,
 });
 
+// 自动路由发现 ？？？
 function formatModules(_modules: any, result: RouteRecordNormalized[]) {
   Object.keys(_modules).forEach((key) => {
     const defaultModule = _modules[key].default;

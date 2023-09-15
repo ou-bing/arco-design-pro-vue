@@ -19,7 +19,7 @@ const app = createApp(App);
 app.use(ArcoVue, {});
 app.use(ArcoVueIcon);
 
-app.use(router);
+app.use(router);    // 使用路由实例。
 app.use(store);
 app.use(i18n);
 app.use(globalComponents);
