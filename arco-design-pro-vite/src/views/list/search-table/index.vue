@@ -1,8 +1,12 @@
 <template>
   <div class="container">
+    <!-- 面包屑导航 -->
     <Breadcrumb :items="['menu.list', 'menu.list.searchTable']" />
+    <!-- 一个大卡片 -->
     <a-card class="general-card" :title="$t('menu.list.searchTable')">
+      <!-- 栅格行.筛选项 -->
       <a-row>
+        <!-- 栅格行.筛选项.筛选框 -->
         <a-col :flex="1">
           <a-form
             :model="formModel"
@@ -80,7 +84,9 @@
             </a-row>
           </a-form>
         </a-col>
+         <!-- 栅格行.筛选项.分割线 -->
         <a-divider style="height: 84px" direction="vertical" />
+        <!-- 栅格行.筛选项.按钮 -->
         <a-col :flex="'86px'" style="text-align: right">
           <a-space direction="vertical" :size="18">
             <a-button type="primary" @click="search">
@@ -98,8 +104,11 @@
           </a-space>
         </a-col>
       </a-row>
+      <!-- 分割线 -->
       <a-divider style="margin-top: 0" />
+      <!-- 栅格行.表格控制 -->
       <a-row style="margin-bottom: 16px">
+        <!-- 栅格行.表格控制.左侧按钮 -->
         <a-col :span="12">
           <a-space>
             <a-button type="primary">
@@ -117,6 +126,7 @@
             </a-upload>
           </a-space>
         </a-col>
+        <!-- 栅格行.表格控制.右侧按钮 -->
         <a-col
           :span="12"
           style="display: flex; align-items: center; justify-content: end"
@@ -183,6 +193,7 @@
           </a-tooltip>
         </a-col>
       </a-row>
+      <!-- 表格 -->
       <a-table
         row-key="id"
         :loading="loading"
@@ -271,13 +282,14 @@
   };
   const { loading, setLoading } = useLoading(true);
   const { t } = useI18n();
-  const renderData = ref<PolicyRecord[]>([]);
+  const renderData = ref<PolicyRecord[]>([]); // 表格数据
   const formModel = ref(generateFormModel());
-  const cloneColumns = ref<Column[]>([]);
+  const cloneColumns = ref<Column[]>([]);   // 表格列
   const showColumns = ref<Column[]>([]);
 
-  const size = ref<SizeProps>('medium');
+  const size = ref<SizeProps>('medium');  // 默认表格密度
 
+  // 分页属性
   const basePagination: Pagination = {
     current: 1,
     pageSize: 20,
@@ -285,6 +297,7 @@
   const pagination = reactive({
     ...basePagination,
   });
+  // 表格.密度配置
   const densityList = computed(() => [
     {
       name: t('searchTable.size.mini'),
@@ -303,6 +316,7 @@
       value: 'large',
     },
   ]);
+  // 表格.列配置
   const columns = computed<TableColumnData[]>(() => [
     {
       title: t('searchTable.columns.index'),
@@ -345,6 +359,7 @@
       slotName: 'operations',
     },
   ]);
+  // 筛选项.内容体裁
   const contentTypeOptions = computed<SelectOptionData[]>(() => [
     {
       label: t('searchTable.form.contentType.img'),
@@ -359,6 +374,7 @@
       value: 'verticalVideo',
     },
   ]);
+  // 筛选项.筛选方式
   const filterTypeOptions = computed<SelectOptionData[]>(() => [
     {
       label: t('searchTable.form.filterType.artificial'),
@@ -369,6 +385,7 @@
       value: 'rules',
     },
   ]);
+  // 筛选项.状态
   const statusOptions = computed<SelectOptionData[]>(() => [
     {
       label: t('searchTable.form.status.online'),
@@ -379,6 +396,8 @@
       value: 'offline',
     },
   ]);
+
+  // 获取表格数据
   const fetchData = async (
     params: PolicyParams = { current: 1, pageSize: 20 }
   ) => {
@@ -395,21 +414,28 @@
     }
   };
 
+  // 点击查询按钮后
   const search = () => {
     fetchData({
       ...basePagination,
       ...formModel.value,
     } as unknown as PolicyParams);
   };
+
+  // 翻页后
   const onPageChange = (current: number) => {
     fetchData({ ...basePagination, current });
   };
 
+  // 立即获取表格数据。
   fetchData();
+
+  // 点击重置筛选项后
   const reset = () => {
     formModel.value = generateFormModel();
   };
 
+  // 选择密度按钮
   const handleSelectDensity = (
     val: string | number | Record<string, any> | undefined,
     e: Event
@@ -417,6 +443,7 @@
     size.value = val as SizeProps;
   };
 
+  // 修改要展示的列
   const handleChange = (
     checked: boolean | (string | boolean | number)[],
     column: Column,
@@ -431,6 +458,7 @@
     }
   };
 
+  // 交换排序 ？
   const exchangeArray = <T extends Array<any>>(
     array: T,
     beforeIdx: number,
@@ -449,6 +477,7 @@
     return newArray;
   };
 
+  // 修改表格列设置后
   const popupVisibleChange = (val: boolean) => {
     if (val) {
       nextTick(() => {
